@@ -1,7 +1,8 @@
 #powershell script to pull users and groups/security groups associated to users in a easy readable format, and so you can copy+paste
 
+#When you run the following command you will get A LOT of info about them
 Get-ADUser -Identity adam1234adprofile -Properties memberof -Server hungarian.nerd.com | Select-Object -ExpandProperty memberof
-#When you run The above command you will get A LOT of info about them
+
 
 #the following command Filters the output to only display the groups. 
 Get-ADUser -Identity 'username' -Properties memberof  - Server 'servername' | Select-Object -ExpandProperty memberof |% {($_.split('=')[1]).split(',')[0]}
