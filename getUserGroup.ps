@@ -6,3 +6,17 @@ Get-ADUser -Identity adam1234adprofile -Properties memberof -Server hungarian.ne
 
 the following command Filters the output to only display the groups. 
 Get-ADUser -Identity 'username' -Properties memberof  -Server 'servername' | Select-Object -ExpandProperty memberof |% {($_.split('=')[1]).split(',')[0]}
+
+
+
+if you dont know the server name , you can query it like this;
+# 1) Expand HostName to a string
+$dc = Get-ADDomainController -Discover -Service ADWS | Select-Object -First 1 -ExpandProperty HostName
+
+# 2) Index explicitly
+$dc = (Get-ADDomainController -Discover -Service ADWS).HostName[0]
+
+# 3) Use the PDC emulator (always a single DC)
+$dc = (Get-ADDomain).PDCEmulator
+
+Get-ADUser -Identity 'username' -Properties memberof  -Server 'servername' | Select-Object -ExpandProperty memberof |% {($_.split('=')[1]).split(',')[0]}
